@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShortEarn Login</title>
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#0b0b10;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+.box{
+  width:90%;
+  max-width:380px;
+  background:#1d202a;
+  padding:25px;
+  border-radius:20px;
+}
+h1{text-align:center}
+input{
+  width:100%;
+  padding:14px;
+  margin:8px 0;
+  box-sizing:border-box;
+  border:0;
+  border-radius:10px;
+  background:#292c38;
+  color:white;
+}
+button{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  border:0;
+  border-radius:10px;
+  background:#ffd83d;
+  font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="box">
+<h1>▶ ShortEarn</h1>
+<p>Login to continue</p>
+
+<input type="email" id="email" placeholder="Email">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+<p id="message"></p>
+</div>
+
+<script>
+function login(){
+  const email=document.getElementById("email").value;
+  const password=document.getElementById("password").value;
+
+  if(!email || !password){
+    document.getElementById("message").innerText="Please fill both fields.";
+    return;
+  }
+
+  document.getElementById("message").innerText=
+    "Demo login successful!";
+}
+</script>
+
+</body>
+</html>
