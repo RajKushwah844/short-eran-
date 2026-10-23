@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ShortEarn Login</title>
+
 <style>
 body{
   margin:0;
@@ -42,35 +43,92 @@ button{
   background:#ffd83d;
   font-weight:bold;
 }
+#signupBtn{
+  background:#444;
+  color:white;
+}
+#message{
+  text-align:center;
+  margin-top:15px;
+}
 </style>
 </head>
+
 <body>
 
 <div class="box">
 <h1>▶ ShortEarn</h1>
-<p>Login to continue</p>
+<p>Login or create an account</p>
 
 <input type="email" id="email" placeholder="Email">
 <input type="password" id="password" placeholder="Password">
 
-<button onclick="login()">Login</button>
+<button id="loginBtn">Login</button>
+<button id="signupBtn">Sign Up</button>
 
 <p id="message"></p>
 </div>
 
-<script>
-function login(){
-  const email=document.getElementById("email").value;
-  const password=document.getElementById("password").value;
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-  if(!email || !password){
-    document.getElementById("message").innerText="Please fill both fields.";
+const firebaseConfig = {
+  apiKey: "AIzaSyD3BdM2tMUGEKF7zuive4ufZXc9tGwc064",
+  authDomain: "short-eran-b36b2.firebaseapp.com",
+  projectId: "short-eran-b36b2",
+  storageBucket: "short-eran-b36b2.firebasestorage.app",
+  messagingSenderId: "180421607816",
+  appId: "1:180421607816:web:c0929eff077f2ef7d6fa3d",
+  measurementId: "G-02QWJYK2QR"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const message = document.getElementById("message");
+
+document.getElementById("signupBtn").addEventListener("click", async () => {
+  if (!email.value || !password.value) {
+    message.innerText = "Please enter email and password.";
     return;
   }
 
-  document.getElementById("message").innerText=
-    "Demo login successful!";
-}
+  try {
+    await createUserWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+    message.innerText = "Account created successfully!";
+  } catch (error) {
+    message.innerText = error.message;
+  }
+});
+
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  if (!email.value || !password.value) {
+    message.innerText = "Please enter email and password.";
+    return;
+  }
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      email.value,
+      password.value
+    );
+    message.innerText = "Login successful!";
+  } catch (error) {
+    message.innerText = error.message;
+  }
+});
 </script>
 
 </body>
