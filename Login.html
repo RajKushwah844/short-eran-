@@ -1,4 +1,4 @@
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -22,6 +22,7 @@ body{
   background:#1d202a;
   padding:25px;
   border-radius:20px;
+  box-sizing:border-box;
 }
 h1{text-align:center}
 input{
@@ -42,14 +43,21 @@ button{
   border-radius:10px;
   background:#ffd83d;
   font-weight:bold;
+  cursor:pointer;
 }
 #signupBtn{
   background:#444;
   color:white;
 }
+#forgotBtn{
+  background:transparent;
+  color:#ffd83d;
+  border:1px solid #ffd83d;
+}
 #message{
   text-align:center;
   margin-top:15px;
+  overflow-wrap:anywhere;
 }
 </style>
 </head>
@@ -65,16 +73,19 @@ button{
 
 <button id="loginBtn">Login</button>
 <button id="signupBtn">Sign Up</button>
+<button id="forgotBtn">Forgot Password?</button>
 
 <p id="message"></p>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
@@ -95,7 +106,7 @@ const password = document.getElementById("password");
 const message = document.getElementById("message");
 
 document.getElementById("signupBtn").addEventListener("click", async () => {
-  if (!email.value || !password.value) {
+  if (!email.value.trim() || !password.value) {
     message.innerText = "Please enter email and password.";
     return;
   }
@@ -103,7 +114,7 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   try {
     await createUserWithEmailAndPassword(
       auth,
-      email.value,
+      email.value.trim(),
       password.value
     );
     message.innerText = "Account created successfully!";
@@ -113,7 +124,7 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
 });
 
 document.getElementById("loginBtn").addEventListener("click", async () => {
-  if (!email.value || !password.value) {
+  if (!email.value.trim() || !password.value) {
     message.innerText = "Please enter email and password.";
     return;
   }
@@ -121,10 +132,26 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   try {
     await signInWithEmailAndPassword(
       auth,
-      email.value,
+      email.value.trim(),
       password.value
     );
     message.innerText = "Login successful!";
+  } catch (error) {
+    message.innerText = error.message;
+  }
+});
+
+document.getElementById("forgotBtn").addEventListener("click", async () => {
+  const userEmail = email.value.trim();
+
+  if (!userEmail) {
+    message.innerText = "Please enter your email first.";
+    return;
+  }
+
+  try {
+    await sendPasswordResetEmail(auth, userEmail);
+    message.innerText = "Password reset email sent. Check your inbox and spam folder.";
   } catch (error) {
     message.innerText = error.message;
   }
