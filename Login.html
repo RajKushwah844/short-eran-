@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,7 +44,6 @@ button{
   border-radius:10px;
   background:#ffd83d;
   font-weight:bold;
-  cursor:pointer;
 }
 #signupBtn{
   background:#444;
@@ -63,7 +63,6 @@ button{
 </head>
 
 <body>
-
 <div class="box">
 <h1>▶ ShortEarn</h1>
 <p>Login or create an account</p>
@@ -89,13 +88,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyD3BdM2tMUGEKF7zuive4ufZXc9tGwc064",
-  authDomain: "short-eran-b36b2.firebaseapp.com",
-  projectId: "short-eran-b36b2",
-  storageBucket: "short-eran-b36b2.firebasestorage.app",
-  messagingSenderId: "180421607816",
-  appId: "1:180421607816:web:c0929eff077f2ef7d6fa3d",
-  measurementId: "G-02QWJYK2QR"
+  apiKey: "AIzaSyYOUR_NEW_API_KEY",
+  authDomain: "short-eran-website.firebaseapp.com",
+  projectId: "short-eran-website",
+  storageBucket: "short-eran-website.firebasestorage.app",
+  messagingSenderId: "1053404878467",
+  appId: "YOUR_NEW_APP_ID",
+  measurementId: "G-GYZJE38DG9"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -112,11 +111,7 @@ document.getElementById("signupBtn").addEventListener("click", async () => {
   }
 
   try {
-    await createUserWithEmailAndPassword(
-      auth,
-      email.value.trim(),
-      password.value
-    );
+    await createUserWithEmailAndPassword(auth, email.value.trim(), password.value);
     message.innerText = "Account created successfully!";
   } catch (error) {
     message.innerText = error.message;
@@ -130,11 +125,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
   }
 
   try {
-    await signInWithEmailAndPassword(
-      auth,
-      email.value.trim(),
-      password.value
-    );
+    await signInWithEmailAndPassword(auth, email.value.trim(), password.value);
     message.innerText = "Login successful!";
   } catch (error) {
     message.innerText = error.message;
@@ -151,12 +142,11 @@ document.getElementById("forgotBtn").addEventListener("click", async () => {
 
   try {
     await sendPasswordResetEmail(auth, userEmail);
-    message.innerText = "Password reset email sent. Check your inbox and spam folder.";
+    message.innerText = "Password reset email sent. Check your Gmail.";
   } catch (error) {
     message.innerText = error.message;
   }
 });
 </script>
-
 </body>
 </html>
